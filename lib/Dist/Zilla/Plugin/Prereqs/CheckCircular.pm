@@ -76,11 +76,11 @@ In F<dist.ini>:
 
 =head1 DESCRIPTION
 
-This plugin will check that the recursive dependencies of all RuntimeRequires
-prereqs do not depend back on one of the distribution's modules.
-
-Checking recursive dependencies is done using a local CPAN mirror that is
-indexed by L<App::lcpan>.
+This plugin will check that there is no circular dependency being formed. This
+is done by: collecting all RuntimeRequires prereqs of the distribution, then
+feeding it to L<App::lcpan> to get the recursive dependencies of those prereqs.
+If one of those dependencies is one of the distribution's modules, then we have
+a circular dependency and the build is aborted.
 
 
 =head1 SEE ALSO
