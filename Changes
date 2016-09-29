@@ -1,5 +1,12 @@
 Revision history for Dist-Zilla-Plugin-Prereqs-CheckCircular
 
+0.002   2016-09-29 (PERLANCAR)
+
+	- No functional changes.
+
+	- [doc] Rewording of Description.
+
+
 0.001   2016-09-29 (PERLANCAR)
 
          - First release.
