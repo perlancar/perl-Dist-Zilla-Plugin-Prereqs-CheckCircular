@@ -31,22 +31,25 @@ sub setup_installer {
 
     my $prereqs_hash = $self->zilla->prereqs->as_string_hash;
     my $rr_prereqs = $prereqs_hash->{runtime}{requires} // {};
+    my @prereqs = grep { $_ ne 'perl' } sort keys %$rr_prereqs;
+    return unless @prereqs;
 
     my $my_mods = $self->_list_my_modules;
 
-    $self->log_debug(
+    # since this can take several seconds, we log at non-debug level to show
+    # message to user
+    $self->log(
         ["We are depending on these modules (RuntimeRequires): ".
              "%s, checking for circularity from local CPAN mirror (whether ".
-             "these dependencies depend back to us)", $rr_prereqs]);
+                 "these dependencies depend back to us)", \@prereqs]);
+
     # skip unknown modules
-    my $res = call_lcpan_script(argv=>[
-        "mods", "--or", "-x",
-        grep {$_ ne 'perl'} keys %$rr_prereqs]);
+    my $res = call_lcpan_script(argv=>["mods", "--or", "-x", @prereqs]);
     $self->log_fatal(["Can't lcpan mods -x: %s - %s", $res->[0], $res->[1]])
         unless $res->[0] == 200;
     my $mods = $res->[2];
-    $res = call_lcpan_script(argv=>[
-        "deps", "-R", @$mods]);
+
+    $res = call_lcpan_script(argv=>["deps", "-R", @$mods]);
     $self->log_fatal(["Can't lcpan deps: %s - %s", $res->[0], $res->[1]])
         unless $res->[0] == 200;
     for my $entry (@{$res->[2]}) {
