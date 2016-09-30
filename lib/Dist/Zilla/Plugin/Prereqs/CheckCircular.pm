@@ -78,9 +78,9 @@ In F<dist.ini>:
 
 This plugin will check that there is no circular dependency being formed. This
 is done by: collecting all RuntimeRequires prereqs of the distribution, then
-feeding it to L<App::lcpan> to get the recursive dependencies of those prereqs.
-If one of those dependencies is one of the distribution's modules, then we have
-a circular dependency and the build is aborted.
+feeding them to L<App::lcpan> to get the recursive dependencies of those
+prereqs. If one of those dependencies is one of the distribution's modules, then
+we have a circular dependency and the build is aborted.
 
 
 =head1 SEE ALSO
