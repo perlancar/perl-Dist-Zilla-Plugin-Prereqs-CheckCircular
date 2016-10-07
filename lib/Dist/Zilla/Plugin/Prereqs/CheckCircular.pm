@@ -29,6 +29,12 @@ sub _list_my_modules {
 sub setup_installer {
     my ($self) = @_;
 
+    if ($ENV{DZIL_CHECKCIRCULAR_SKIP}) {
+        $self->log(["Skipping checking circular dependency because ".
+                        "environment DZIL_CHECKCIRCULAR_SKIP is set to true"]);
+        return;
+    }
+
     my $prereqs_hash = $self->zilla->prereqs->as_string_hash;
     my $rr_prereqs = $prereqs_hash->{runtime}{requires} // {};
     my @prereqs = grep { $_ ne 'perl' } sort keys %$rr_prereqs;
@@ -84,6 +90,13 @@ is done by: collecting all RuntimeRequires prereqs of the distribution, then
 feeding them to L<App::lcpan> to get the recursive dependencies of those
 prereqs. If one of those dependencies is one of the distribution's modules, then
 we have a circular dependency and the build is aborted.
+
+
+=head1 ENVIRONMENT
+
+=head2 DZIL_CHECKCIRCULAR_SKIP => bool
+
+Can be set to 1 to skip checking circular dependency.
 
 
 =head1 SEE ALSO
