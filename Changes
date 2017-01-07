@@ -1,5 +1,3 @@
-Revision history for Dist-Zilla-Plugin-Prereqs-CheckCircular
-
 0.003   2016-10-07 (PERLANCAR)
 
 	- Allow skipping checking circular deps via environment variable
