@@ -10,7 +10,7 @@ use warnings;
 use Moose;
 with 'Dist::Zilla::Role::InstallTool';
 
-use App::lcpan::Call qw(call_lcpan_script);
+use App::lcpan::Call qw(call_lcpan_script check_lcpan);
 use namespace::autoclean;
 
 sub _list_my_modules {
@@ -32,6 +32,13 @@ sub setup_installer {
     if ($ENV{DZIL_CHECKCIRCULAR_SKIP}) {
         $self->log(["Skipping checking circular dependency because ".
                         "environment DZIL_CHECKCIRCULAR_SKIP is set to true"]);
+        return;
+    }
+
+    my $lcpan_check = check_lcpan();
+    unless ($lcpan_check->[0] == 200) {
+        $self->log(["Skipping checking circular dependency because ".
+                        "lcpan_check was not successful: " . $lcpan_check->[1]]);
         return;
     }
 
