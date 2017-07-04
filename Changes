@@ -1,3 +1,8 @@
+0.004   2017-07-04 (PERLANCAR)
+
+        - Skip checking if lcpan is not available [thanks José Joaquín Atria].
+
+
 0.003   2016-10-07 (PERLANCAR)
 
 	- Allow skipping checking circular deps via environment variable
