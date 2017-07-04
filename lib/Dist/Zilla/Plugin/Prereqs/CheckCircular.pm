@@ -38,7 +38,8 @@ sub setup_installer {
     my $lcpan_check = check_lcpan();
     unless ($lcpan_check->[0] == 200) {
         $self->log(["Skipping checking circular dependency because ".
-                        "lcpan_check was not successful: " . $lcpan_check->[1]]);
+                        "check_lcpan() was not successful: " .
+                            $lcpan_check->[1]]);
         return;
     }
 
