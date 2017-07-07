@@ -8,7 +8,7 @@ use strict;
 use warnings;
 
 use Moose;
-with 'Dist::Zilla::Role::InstallTool';
+with 'Dist::Zilla::Role::AfterBuild';
 
 use App::lcpan::Call qw(call_lcpan_script check_lcpan);
 use namespace::autoclean;
@@ -26,7 +26,7 @@ sub _list_my_modules {
     \%res;
 }
 
-sub setup_installer {
+sub after_build {
     my ($self) = @_;
 
     if ($ENV{DZIL_CHECKCIRCULAR_SKIP}) {
