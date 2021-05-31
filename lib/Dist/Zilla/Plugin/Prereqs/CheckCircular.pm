@@ -65,7 +65,8 @@ sub after_build {
 
     return unless @$mods;
 
-    $res = call_lcpan_script(argv=>["deps", "-R", @$mods]);
+    $res = call_lcpan_script(argv=>["deps", "-R",
+                                    map {("--module",$_)} @$mods]);
     $self->log_fatal(["Can't lcpan deps: %s - %s", $res->[0], $res->[1]])
         unless $res->[0] == 200;
     for my $entry (@{$res->[2]}) {
